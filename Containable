@@ -1,0 +1,110 @@
+package containment;
+
+public interface Containable {
+    public boolean add(Object o);
+
+    public Object get(Object o);
+
+}
+
+=========================================================
+
+package containment;
+
+public class Container implements Containable{
+
+    private static  final int SIZE = 3;
+    private Object[] box = new Object[SIZE];
+
+    private int count = 0;
+
+
+    @Override
+    public boolean add(Object obj) {
+        if(obj == null || count == SIZE) return false;
+        box [count++] = obj; // count++ คือ count = count +1
+        return true;
+
+    }
+
+//    @Override
+//    public Object get(Object obj) {
+//        if(obj == null) return false;
+//        for (int i = 0; i < count ; i++){
+//            if(box[i].equals(obj)) return true; // ส่งมาให้ตรวจสองว่าอันเดียวกันมั้ย เขียน  if(box[i] == obj) ได้แต่อยากให้ใช้ .equals มากกว่า เพราะ เหมือน ไม่เท่ากับ อันเดียวกัน
+//        }
+//        return false;
+//    }
+      @Override
+      public Object get(Object obj) {
+        if (obj == null) return null;
+        for (int i = 0; i < count; i++) {
+          if (box[i].equals(obj)) return box[i];
+       }
+         return false;
+    }
+
+
+
+
+}
+
+====================================================================================================
+
+
+package human;
+
+public class Person {
+
+    private int id;
+    private String name;
+
+    public Person(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+   @Override
+   public boolean equals(Object obj){
+        if(obj== null || this.getClass() != obj.getClass()) return false;
+       return this == obj || this.name.equals(((Person) obj) .name );
+   }
+
+    @Override
+    public String toString() {
+        return "Person{" + "id=" + id + ", name='" + name + '\'' + '}';
+    }
+}
+
+====================================================================================================
+
+
+package int103w3;
+
+import containment.Containable;
+import containment.Container;
+import human.Person;
+
+public class Int103w3 {
+
+    public static void main(String[] args) {
+       testContainable();
+    }
+
+    private static void testContainable() {
+       Containable c = new Container();
+        System.out.println(" add 9 : " + c.add(new Person(9 , "Nine")));
+        System.out.println(" add null : " + c.add((null )));
+        System.out.println(" add 7 : " + c.add(new Person(7 , "Pond")));
+        System.out.println(" add 5 : " + c.add(new Person(5 , "Aom")));
+        System.out.println(" add 1 : " + c.add(new Person(1 , "Pear")));
+        System.out.println(" get 9 : " + c.get(new Person(0 , "Nine")));
+        System.out.println(" get Anything : " + c.get("Seven"));
+
+
+    }
+}
+
+
+====================================================================================================
+
