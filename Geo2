@@ -1,0 +1,84 @@
+package geo2;
+
+
+public interface  Shape {
+    double getPerimeter();
+
+    double getArea();
+
+
+}
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+package geo2;
+
+public interface ThickShape extends Shape{
+
+    public double getVolume();
+}
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+package geo2;
+
+public class Squre implements Shape {
+
+    protected double side ;
+
+    public Squre (double side){
+        this.side = side;
+    }
+    @Override
+    public double getPerimeter() {
+        return 4.0 * side;
+    }
+
+    @Override
+    public double getArea() {
+        return side * side;
+    }
+}
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+package geo2;
+
+public class ThickSquare  extends Squre implements ThickShape{
+
+    private double thickness;
+
+    public ThickSquare(double side , double thickness) {
+        super(side);
+        this.thickness = thickness;
+    }
+
+
+    @Override
+    public double getVolume() {
+        return thickness * this.getArea();
+    }
+}
+
+package geo2;
+
+public class Geotest {
+    public static void main(String[] args) {
+        ThickShape t = new ThickSquare(5.0 , 2.0 );
+
+        System.out.println("Perimeter : "+ t.getPerimeter());
+        System.out.println("Area : " + t.getArea());
+        System.out.println("Volume : "+ t.getVolume());
+
+
+
+    }
+
+
+}
+
+----------------------------------------------------------
+----------------------------------------------------------
