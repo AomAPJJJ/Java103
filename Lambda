@@ -1,0 +1,21 @@
+import java.util.Arrays;
+import java.util.List;
+
+public class FunctionalPrograming {
+    public static void main(String[] args) {
+       List<String> names = Arrays.asList("John" , "Aom" ,"Pear");
+
+        //using lamda expression
+
+        names.stream().filter(name -> name.startsWith("P")).forEach(System.out::println);
+
+        // sort by medthod ref
+
+
+        names.sort(String::compareToIgnoreCase);
+        System.out.println(names);
+
+        List<Integer> nameLengths = names.stream().map(name -> name.length()).toList();
+
+    }
+}
