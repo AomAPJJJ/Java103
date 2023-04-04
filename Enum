@@ -1,0 +1,51 @@
+public enum Userstatus {
+    Active , Mute , Busy ;
+}
+
+=====================================================
+
+import org.w3c.dom.ls.LSOutput;
+
+public class Person {
+
+
+    private String name;
+    private Userstatus userstatus;
+
+    public String getName() {
+        return name;
+    }
+
+    public Userstatus getUserstatus() {
+        return userstatus;
+    }
+
+    public Person(String name, Userstatus user) {
+        this.name = name;
+        this.userstatus = user;
+    }
+
+
+
+}
+
+class Stastus{
+
+    public static void main(String[] args) {
+
+        Person u1 = new Person("Aom" , Userstatus.Mute);
+        Person u2 = new Person("Panipak" , Userstatus.Active);
+        Person u3 = new Person("Jong" , Userstatus.Busy);
+
+        System.out.println(u2.getUserstatus().equals(Userstatus.Active) ? u1.getName() : "");
+
+//        if(u1.getUserstatus().equals(Userstatus.Active)) return u1.getName(); แปลข้างบน
+//        return "" ;
+
+    }
+
+
+
+
+}
+================================================================================================
