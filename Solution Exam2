@@ -1,0 +1,259 @@
+============================================ main ============================================
+package exam.main;
+
+import exam.base.ToBeEnum;
+import exam.base.ToBeLambda;
+import exam.base.ToCompare;
+import exam.base.ToIterate;
+
+import java.util.Arrays;
+import java.util.Iterator;
+
+import static exam.base.ToBeEnum.*;
+
+public class MainExam {
+
+    // replace 999 with the last three digits of your student id.
+    // replace YOUR_STUDENT_ID with your "student id inside a quote".
+    private static final ToCompare[] cmps = { new ToCompare(050, "65130500050"),
+        new ToCompare(-7, "Seven"), new ToCompare(-2, "Two"), 
+        new ToCompare(-9, "Nine"), new ToCompare(-3, "Three") };
+    
+    // replace YOUR_FIRSTNAME with your firstname.
+    // replace YOUR_LASTNAME with your lastname.
+    private static final ToBeLambda[] lds = {
+        new ToBeLambda("Panipak", "Jongsirivanich"),
+        new ToBeLambda("Steve","Johnson"),
+        new ToBeLambda("Joseph","Aliba"), 
+        new ToBeLambda("Alice","Smith")
+    };
+
+    public static void main(String[] args) {
+        exam01ToBeEnum(); // 10 points
+        exam02ToCompare(); // 30 points
+        exam03ToIterate(); // 20 points
+        exam04Lambda(); // 20 points
+        exam05Stream(); // 20 points
+    }
+
+    private static void exam01ToBeEnum() {
+        System.out.println("EXAM01: ===============");
+
+        /* EXAM01: change ToBeEnum class to ToBeEnum enum that consists of
+        the following enum values: FRESHMAN, SOPHOMORE, JUNIOR, SENIOR */
+
+        System.out.println("  " + FRESHMAN
+                + " : " + FRESHMAN.getName()
+                + " (" + FRESHMAN.getYear() + ")");
+
+        System.out.println("  " + SOPHOMORE
+                + " : " + SOPHOMORE.getName()
+                + " (" + SOPHOMORE.getYear() + ")");
+
+        System.out.println("  " + JUNIOR
+                + " : " + JUNIOR.getName()
+                + " (" + JUNIOR.getYear() + ")");
+
+        System.out.println("  " + SENIOR
+                + " : " + SENIOR.getName()
+                + " (" + SENIOR.getYear() + ")");
+    }
+
+    private static void exam02ToCompare() {
+        System.out.println("EXAM02: ===============");
+
+        /* EXAM02.1: change ToCompare class to implement Comparable interface
+        so that it can compare two ToCompare objects by their names. */
+
+        /* EXAM02.2: implement compareByValue in the ToCompare class
+        so that it can compare two ToCompare objects by thier values. */
+
+        System.out.print("  Unsorted");
+        for (ToCompare cmp : cmps) System.out.print(" : " + cmp);
+        System.out.println();
+
+        /* EXAM02.3: call Arrays.sort() method so that it sorts 
+        the cmps array by the name of ToCompare objects */
+        Arrays.sort(cmps); //ถ้ามันแดงกด import เข้ามาก่อน
+        System.out.print("  Sort by Name");
+        for (ToCompare cmp : cmps) System.out.print(" : " + cmp);
+        System.out.println();
+
+        /* EXAM02.4: call Arrays.sort() method and provide a comparator
+        so that it sorts the cmps array by the values of ToCompare objects */
+        Arrays.sort(cmps , ToCompare::compareTo );
+                // ตัวแรกคือชนิด ตัวที่สองคือ Comparetor
+                // ตัวแรก (cmps //sorts the cmps ,
+                // ตัวที่สอง Comparetor ถ้ายังไม่มีตัว Comparetor ให้ใช้ new Comparetor อะไรก็ว่าไป
+                // เป็น static เรียกใช้ได้เลย ค่อยๆเข้าที่ละตัว ToCompare เป็น class
+                // :: คือ Method referent คือการอ้างอิงถึงว่าเป็น Comparetor
+        System.out.print("  Sort by Value");
+        for (ToCompare cmp : cmps)   System.out.print(" : " + cmp);
+        System.out.println();
+    }
+
+    private static void exam03ToIterate() {
+        System.out.println("EXAM03: ===============");
+
+        /* EXAM03.1: change ToIterate<T> class to implement Iterable interface. */
+
+        ToIterate<ToCompare> dataSet = ToIterate.of(cmps);
+
+        /* EXAM03.2: use ToIterate's iterator to print all elements in the dataSet out. */
+        Iterator<ToCompare> iterator = dataSet.iterator();
+        while (iterator.hasNext()){
+            System.out.println("Next " + iterator.next());
+        }
+    }
+
+    private static void exam04Lambda() {
+        System.out.println("EXAM04: ===============");
+
+        /* EXAM04.1: write a lambda expression for ToBeLambda.byFirstname. */
+        
+        System.out.print("  Unsorted");
+        for (ToBeLambda ld : lds) System.out.print(" : " + ld);
+        System.out.println();
+        
+        /* EXAM04.2: call Arrays.sort() method and provide a comparator
+        so that it sorts the lds array by the firstname */
+        Arrays.sort(lds , ToBeLambda.compareByFirstname);
+        System.out.print("  Sorted by Firstname");
+        for (ToBeLambda ld : lds) System.out.print(" : " + ld);
+        System.out.println();
+
+        /* EXAM04.3: call Arrays.sort() method and provide a comparator
+        so that it sorts the lds array by the firstname in a reverse order */
+        Arrays.sort(lds , ToBeLambda.compareByFirstname.reversed());
+        System.out.print("  Sorted by Firstname in a reverse order");
+        for (ToBeLambda ld : lds) System.out.print(" : " + ld);
+        System.out.println();
+    }
+
+    private static void exam05Stream() {
+        System.out.println("EXAM05: ===============");
+
+        /* EXAM05.1: use a stream to print all objects in the cmps array out. */
+        System.out.println("exam05.1 ----------");
+        Arrays.stream(cmps).forEach(System.out::println);
+
+        /* EXAM05.2: use a stream to select only the objects in the lds array 
+        that the firstname ends with "e". print the result out. */
+        System.out.println("exam05.2 ----------");
+        // only ถ้าเจอ only คือการ filter
+        Arrays.stream(lds).filter(o -> o.evalFirstname(s -> s.endsWith("e"))).forEach(System.out::println);
+        
+    }
+}
+
+============================================ enum ============================================
+package exam.base;
+
+// change this class to be an enum
+public enum ToBeEnum {
+    FRESHMAN (1, "Freshman"),
+    SOPHOMORE(2, "Sophomore"),
+    JUNIOR (3, "Junior"),
+    SENIOR (4, "Senior");
+
+    private final int year;
+    private final String name;
+
+    ToBeEnum(int year, String name) { this.year = year; this.name = name; }
+    public int getYear() { return year; }
+    public String getName() { return name; }
+    @Override public String toString() { return "ToBeEnum(" + year + ":" + name + ")"; }
+    
+    }
+    
+    ============================================ ToCompare ============================================
+    
+    package exam.base;
+
+public class ToCompare implements Comparable <ToCompare> //อย่าลืม Generic
+{ // implements Comparable so that two ToCompare objects can be compared by name
+    private final int value;
+    private final String name;
+
+    public ToCompare(int v, String n) { value = v; name = n; }
+    @Override public String toString() { return "ToCompare(" + value + ":" + name + ")"; }
+
+    // implement this method so that two ToCompare objects can be compared by ###value####
+    public static int compareByValue(ToCompare o1, ToCompare o2) {
+        return o1.value - o2.value ;  //  so that it can compare two ToCompare objects by thier values.
+        //เอาค่ามาเปรียบเทียบกัน ใช้ o1.compareTo(o2); ได้ อันนี้คือเรียงจากน้อยไปมาก
+        // ถ้าเรียงจากมากไปน้อย -(o1.value - o2.value )
+    }
+
+
+    @Override
+    public int compareTo(ToCompare o) { //เอา name มา Compareto กับตัวของ method นี้
+        return name.compareTo(o.name); // it can compare two ToCompare objects by their names.
+    }
+}
+ ============================================ Iterator ============================================
+ package exam.base;
+
+import java.util.Iterator;
+
+//อย่าลืมตัว Generic
+
+public class ToIterate<T> implements Iterable<T>{ // implements Iterable so that ToIterate can be iterated
+    private final T[] internal; //ตัวค่าทั้งหมดที่อยู่ใน ToIterate
+
+    public static final <T> ToIterate<T> of(T ... ts) {
+        T[] array = (T[]) new Object[ts.length];
+        System.arraycopy(ts, 0, array, 0, ts.length);
+        return new ToIterate(array);
+    }
+
+    private ToIterate(T[] ts) { internal = ts; }
+
+    @Override
+    public Iterator iterator() {
+        // use ToIterate's iterator to print all elements in the dataSet
+        // กด new Iterator() แล้วจะเจนโค้ด hasnext ให้
+        return new Iterator() {
+
+            private int current = 0;
+
+
+            @Override
+            public boolean hasNext() { //ถ้า current น้อยกว่าขนาด internal.length
+                return current < internal.length;
+            }
+
+            @Override
+            public T next() {
+                return internal[current++];
+            }
+        };
+    }
+}
+
+ ============================================ TobeLambda ============================================
+ 
+ 
+ package exam.base;
+
+import java.util.Comparator;
+import java.util.function.Predicate;
+
+public class ToBeLambda {
+    private final String firstname;
+    private final String lastname;
+    
+    public ToBeLambda(String fn, String ln) { firstname = fn; lastname = ln; }
+    @Override public String toString() { return "ToBeLambda(" + firstname + ":" + lastname + ")"; }
+    
+    // replace null with a lambda expression to compare objects by the firstname
+
+    /* EXAM04.1: write a lambda expression for ToBeLambda.byFirstname. */
+
+    public static Comparator<ToBeLambda> compareByFirstname = Comparator.comparing(a -> a.firstname);
+    
+    public boolean evalFirstname(Predicate<String> p) { return p.test(firstname); }
+}
+
+
+ 
