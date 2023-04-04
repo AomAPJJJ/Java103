@@ -1,0 +1,93 @@
+=========================================================================
+
+
+public class Main {
+    public static void main(String[] args) {
+       MyList<Ball> ball = new MyList<>();
+       MyList<Table> table = new MyList<>();
+
+       ball.add(new Ball("red"));
+        ball.add(new Ball("red"));
+
+
+
+
+        table.add(new Table(1));
+
+        System.out.println(ball.get(1));
+    }
+}
+
+class MyList<T>{
+
+    private T[] items;
+
+    private int SIZE;
+
+
+    public MyList() {
+        this.items = (T[]) new Object[2];
+        this.SIZE = SIZE;
+    }
+
+    public void add(T item){
+        if(SIZE == items.length){
+            System.out.println("List is Full");
+            return;
+        }
+        items[SIZE++] = item;
+
+    }
+
+    public T get(int index){
+        if(index < 0 || index >= SIZE){
+            System.out.println("Index not found");
+            return null;
+        }
+        return items[index];
+    }
+}
+
+
+class Table{
+    private int id;
+
+    public Table(int id) {
+        this.id = id;
+    }
+
+
+    public int getTableId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "id=" + id +
+                '}';
+    }
+}
+
+
+class Ball{
+ private String colour;
+
+    public Ball(String colour) {
+        this.colour = colour;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    @Override
+    public String toString() {
+        return "Ball{" +
+                "colour='" + colour + '\'' +
+                '}';
+    }
+}
+
+
+=================================================================================
